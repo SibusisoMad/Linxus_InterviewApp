@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace InterviewApp.Services
 {
@@ -33,16 +35,20 @@ namespace InterviewApp.Services
                 };
 
 
-                if (string.IsNullOrEmpty(_options.Language))
-                {
-                    _logger.LogDebug("Language is not provided please check appsettings configuration");
-                    return;
-                }
+                var requiredFields = new List<string>();
 
                 if (string.IsNullOrEmpty(_options.Message))
+                    requiredFields.Add(nameof(_options.Message));
+
+                if (string.IsNullOrEmpty(_options.Language))
+                    requiredFields.Add(nameof(_options.Language));
+
+                if (requiredFields.Any())
                 {
-                    _logger.LogError("Message is not provided please check appsettings configuration");
-                    return; 
+                    _logger.LogError("The following required fields are missing or empty in appsettings.json: {MissingFields}",
+                        string.Join(", ", requiredFields)
+                    );
+                    return;
                 }
 
                 Console.WriteLine(greeting);
