@@ -12,11 +12,13 @@ namespace InterviewApp.Services
        
         private readonly GreetingOptions _options;
         private readonly ILogger<GreetingService> _logger;
+        private readonly ITimeGreetingService _timeGreetingService;
 
-        public GreetingService(IOptions<GreetingOptions> options, ILogger<GreetingService> logger)
+        public GreetingService(IOptions<GreetingOptions> options, ILogger<GreetingService> logger, ITimeGreetingService timeGreetingService)
         {
             _options = options.Value;
             _logger = logger;
+            _timeGreetingService = timeGreetingService;
         }
         public void Run()
         {
@@ -24,15 +26,21 @@ namespace InterviewApp.Services
 
             try
             {
-                string greeting;
+                string greetingMsg;
 
-                greeting = _options.Language switch
+                greetingMsg = _options.Language switch
                 {
                     "English" => $"Hello! {_options.Message}",
                     "Afrikaans" => $"Hallo! {_options.Message}",
                     "Zulu" => $"Sawubona! {_options.Message}",
                     _ => GetUnsupportedGreeting(_options.Language, _options.Message)
                 };
+
+                var currentTimeGreeting = _timeGreetingService.GetTimeBasedGreeting();
+                greetingMsg = $"{currentTimeGreeting} {greetingMsg}";
+
+                string greetingMessage = greetingMsg;
+
 
 
                 var requiredFields = new List<string>();
@@ -51,8 +59,8 @@ namespace InterviewApp.Services
                     return;
                 }
 
-                Console.WriteLine(greeting);
-                _logger.LogInformation("{Greeting}", greeting);
+                Console.WriteLine(greetingMessage);
+                _logger.LogInformation("{Greeting}", greetingMessage);
 
 
             }

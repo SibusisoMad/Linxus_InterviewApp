@@ -19,10 +19,13 @@ class Program
                 services.Configure<GreetingOptions>(context.Configuration.GetSection("Greeting"));
 
                 services.AddTransient<IGreetingService, GreetingService>();
+                services.AddSingleton<ITimeGreetingService, TimeGreetingService>();
             })
             .Build();
 
         var greetingService = host.Services.GetRequiredService<IGreetingService>();
+        
+
         greetingService.Run();
 
         await host.RunAsync();
