@@ -4,13 +4,26 @@ using InterviewApp.Models;
 
 namespace InterviewApp.Services
 {
-    public class GreetingService(IOptions<GreetingOptions> options) : IGreetingService
+    public class GreetingService : IGreetingService
     {
-        private readonly GreetingOptions _options = options.Value;
+        //Refactoring: extending the service to use options pattern for configuration settings      
 
+        private readonly GreetingOptions _options;
+
+        public GreetingService(IOptions<GreetingOptions> options)
+        {
+            _options = options.Value;
+        }
         public void Run()
         {
-            Console.WriteLine(_options.Message);
+            string greeting = _options.Language switch
+            {
+                "English" => $"Hello! {_options.Message}",
+                "Afrikaans" => $"Hallo! {_options.Message}",
+                "Zulu" => $"Sawubona! {_options.Message}",
+                _ => $"Hello (default)! {_options.Message}"
+            };
+            Console.WriteLine(greeting);
         }
     }
 }
