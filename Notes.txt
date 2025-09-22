@@ -1,0 +1,18 @@
+The solution is clean, maintainable, and easily extendable following best practices  for console applications pattern.
+
+overall summary of changes made to the original code:
+
+
+Highghted improvements include:
+1. **Dependency Injection**: The use of interfaces and constructor injection allows for greater flexibility and testability of the code.
+2. **Error Handling**: The application includes basic error handling to manage invalid inputs and exceptions gracefully.
+2. **Extensibility**: The design allows for easy addition of new features or modifications to existing ones without significant changes to the overall structure.
+
+Exta features were added to enhance the functionality of the application, such as:
+Asynchronous Patterns: Now all services  follow async patterns tasync Task to support potential future async operations.
+Logging: A simple logging mechanism was added to track application events and errors.
+Config-Driven Greetings: Supports future extensibility without code changes.
+
+User Experience**: 
+The console interface is user-friendly, providing clear instructions and feedback to the user. e.g lets assume the time is 12:00 the application with generate greeting based on time of the day by picking system time and greet user accordingly.
+If a language is not supported, English is used as fallback or as default language.
